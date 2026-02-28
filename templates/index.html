@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Security Scan</title>
+    <style>
+        :root {
+            --bg: #f8f9fa; --card: #ffffff; --text: #212529;
+            --accent: #007bff; --danger: #dc3545; --success: #198754;
+        }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: var(--card); padding: 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 500px; }
+        h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; color: var(--accent); letter-spacing: -0.5px; }
+        .upload-area { border: 2px dashed #dee2e6; padding: 1.5rem; border-radius: 8px; text-align: center; margin-bottom: 1rem; }
+        input[type="file"] { display: none; }
+        .btn-select { display: inline-block; background: var(--accent); color: white; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 500; }
+        .btn-scan { width: 100%; background: #212529; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        
+        .report { margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1.5rem; }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; }
+        .CRITICAL { background: #ffebee; color: var(--danger); }
+        .WARNING { background: #fff3e0; color: #f57c00; }
+        .SECURE { background: #e8f5e9; color: var(--success); }
+        
+        .data-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; border-bottom: 1px solid #f8f9fa; padding-bottom: 4px; }
+        .label { color: #6c757d; }
+        .comment { background: #f1f3f5; padding: 12px; border-radius: 6px; font-size: 0.9rem; line-height: 1.4; color: #495057; margin-top: 1rem; border-left: 4px solid var(--accent); }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>QR SOC ANALYZER</h1>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="upload-area">
+            <label class="btn-select">
+                Seleccionar QR
+                <input type="file" name="file" accept="image/*" onchange="this.form.submit()">
+            </label>
+            <p style="font-size: 0.8rem; color: #6c757d; margin-top: 10px;">Formatos aceptados: PNG, JPG</p>
+        </div>
+    </form>
+
+    {% if result %}
+        <div class="report">
+            {% if result.status == "SUCCESS" %}
+                <span class="status-badge {{ result.level }}">{{ result.level }}</span>
+                
+                <div class="data-row"><span class="label">Dominio:</span> <span>{{ result.domain }}</span></div>
+                <div class="data-row"><span class="label">Protocolo:</span> <span>{{ result.protocol }}</span></div>
+                <div class="data-row"><span class="label">Riesgo:</span> <span>{{ result.score }}</span></div>
+                <div class="data-row"><span class="label">Enlace:</span> <span style="word-break: break-all; text-align: right; max-width: 60%;">{{ result.url }}</span></div>
+                
+                <div class="comment">
+                    <strong>Resumen:</strong><br>
+                    {{ result.comment }}
+                </div>
+            {% else %}
+                <div style="color: var(--danger); font-size: 0.9rem; text-align: center;">{{ result.message }}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
