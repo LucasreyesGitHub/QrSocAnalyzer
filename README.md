@@ -36,8 +36,8 @@ En un entorno corporativo o de monitoreo, esta herramienta sirve como:
 
 La aplicación está desplegada en **Render** utilizando contenedores **Docker** para garantizar la estabilidad de las librerías de sistema (`libzbar0`).
 
-* **Repositorio:** [Tu URL de GitHub aquí]
-* **URL de Producción:** [Tu URL de Render aquí]
+* **Repositorio:** [https://github.com/LucasreyesGitHub/QrSocAnalyzer]
+* **URL de Producción:** [https://qrsocanalyzer.onrender.com/]
 
 ---
 
@@ -47,4 +47,4 @@ Si deseas ejecutar este proyecto localmente:
 
 1. Clonar el repositorio:
    ```bash
-   git clone [https://github.com/TuUsuario/QrSocAnalyzer.git](https://github.com/TuUsuario/QrSocAnalyzer.git)
+   git clone [https://github.com/TuUsuario/QrSocAnalyzer.git](https://github.com/LucasreyesGitHu/QrSocAnalyzer.git)
