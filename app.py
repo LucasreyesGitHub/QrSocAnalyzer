@@ -107,9 +107,10 @@ def index():
                 
     return render_template('index.html', result=result)
 
-#Fin del codigo
-
 if __name__ == '__main__':
     # Configuración para Render (puerto 10000) o Local (puerto 5000/10000)
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port, debug=True)
+
+#Fin del codigo
+
