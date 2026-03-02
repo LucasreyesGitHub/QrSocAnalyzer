@@ -12,7 +12,7 @@ app = Flask(__name__)
 # En local puedes poner tu key aquí: VT_API_KEY = "tu_key"
 # En Render, esto leerá la variable de entorno automáticamente
 # Cámbiala TEMPORALMENTE por esta:
-T_API_KEY = os.environ.get("VT_API_KEY")
+VT_API_KEY = os.environ.get("VT_API_KEY")
 
 def analyze_security(url):
     """
