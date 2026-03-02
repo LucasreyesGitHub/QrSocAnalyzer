@@ -1,17 +1,23 @@
-FROM python:3.10-slim
+# Usa una imagen oficial de Python
+FROM python:3.11-slim
 
-# Solo instalamos libzbar0 que es la única que pyzbar necesita
+# INSTALA LA LIBRERÍA DEL SISTEMA QUE FALTA (ZBAR)
 RUN apt-get update && apt-get install -y \
     libzbar0 \
     && rm -rf /var/lib/apt/lists/*
 
+# Configura el directorio de trabajo
 WORKDIR /app
 
-COPY . .
-
+# Copia los archivos de requerimientos e instala
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Render requiere el puerto 10000
-ENV PORT=10000
+# Copia el resto del código
+COPY . .
 
-CMD gunicorn --bind 0.0.0.0:$PORT app:app
+# Expone el puerto que usa Render
+EXPOSE 10000
+
+# Comando para arrancar la app con Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:10000", "app:app"]
