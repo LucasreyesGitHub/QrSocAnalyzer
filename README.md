@@ -1,50 +1,54 @@
-# 🛡️ QR SOC Analyzer
+# 🔍 QrSocAnalyzer - VirusTotal Integrated
 
-![Status](https://img.shields.io/badge/Status-Live-success)
-![Platform](https://img.shields.io/badge/Deployed-Render-blue)
-![Tech](https://img.shields.io/badge/Tech-Python_|_Flask_|_Docker-lightgrey)
+**QrSocAnalyzer** es una herramienta de análisis de seguridad diseñada para decodificar códigos QR y realizar un escaneo instantáneo de las URLs contenidas utilizando la API de **VirusTotal**. 
 
-**QR SOC Analyzer** es una herramienta de ciberseguridad diseñada para mitigar el *Quishing* (Phishing a través de códigos QR). La aplicación permite cargar una imagen de un código QR, decodificar su contenido y realizar un análisis de reputación técnico bajo un formato de reporte estilo **SOC (Security Operations Center)**.
+Este proyecto está enfocado en prevenir ataques de **QRishing** (QR Phishing), permitiendo a los analistas de SOC y usuarios finales verificar la reputación de un enlace antes de visitarlo.
+
+## ✨ Características
+* **Decodificación QR:** Extrae URLs de imágenes cargadas (soporta PNG, JPG, JPEG).
+* **Análisis de Reputación:** Consulta en tiempo real la base de datos de VirusTotal.
+* **Indicadores Visuales:** Alertas en rojo para enlaces maliciosos y verde para sitios limpios.
+* **Despliegue en la Nube:** Configurado para funcionar en entornos Docker (Render, AWS, etc.).
+
+## 🛠️ Tecnologías Utilizadas
+* **Lenguaje:** Python 3.11
+* **Framework Web:** Flask
+* **Procesamiento de Imágenes:** Pillow & PyZbar
+* **Integración de Seguridad:** VirusTotal API v3
+* **Servidor de Producción:** Gunicorn
+* **Contenedor:** Docker (Debian-slim)
+
+## 🚀 Instalación y Uso Local
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone [https://github.com/LucasreyesGitHub/QrSocAnalyzer.git](https://github.com/LucasreyesGitHub/QrSocAnalyzer.git)
+    cd QrSocAnalyzer
+    ```
+
+2.  **Configurar variables de entorno:**
+    Crea un archivo `.env` o exporta tu clave de API:
+    ```bash
+    export VT_API_KEY="tu_clave_de_virustotal_aqui"
+    ```
+
+3.  **Ejecutar con Docker (Recomendado):**
+    ```bash
+    docker build -t qrsocanalyzer .
+    docker run -p 10000:10000 -e VT_API_KEY=$VT_API_KEY qrsocanalyzer
+    ```
+
+4.  **Acceder:** Abre `http://localhost:10000` en tu navegador.
+
+## 🌐 Despliegue en Render
+Para que la librería `zbar` funcione correctamente en Render, se utiliza el **Dockerfile** incluido. 
+
+**Configuración necesaria en Render:**
+1.  **Runtime:** Docker
+2.  **Environment Variable:** * `VT_API_KEY`: Tu clave privada de VirusTotal.
+
+## 🛡️ Uso en SOC
+Esta herramienta es ideal para flujos de triaje inicial donde se sospecha de códigos QR recibidos por correo electrónico o encontrados en espacios físicos.
 
 ---
-
-## 🚀 Proceso de Funcionamiento
-
-El flujo de la aplicación sigue estos pasos técnicos:
-
-1.  **Ingesta de Datos:** El usuario carga una imagen (PNG/JPG) a través de la interfaz minimalista.
-2.  **Decodificación (Engine):** El sistema utiliza el motor de **PyZbar** para localizar y extraer la cadena de texto/URL oculta en el código QR.
-3.  **Análisis de Seguridad:** Una vez extraída la URL, el backend procesa la cadena buscando:
-    * **Protocolo:** Verificación de cifrado SSL (HTTP vs HTTPS).
-    * **Reputación de Dominio:** Detección de acortadores de URL (bit.ly, t.co, etc.) que suelen ocultar destinos maliciosos.
-    * **Análisis de Patrones:** Identificación de palabras clave asociadas a Phishing (login, verify, secure).
-4.  **Generación de Reporte:** Se devuelve un objeto JSON al frontend que renderiza un reporte con nivel de riesgo (CRITICAL, WARNING, SECURE) y un comentario en lenguaje natural para el usuario final.
-
----
-
-## 🛠️ Utilidad para un SOC (Security Operations Center)
-
-En un entorno corporativo o de monitoreo, esta herramienta sirve como:
-
-* **Triage Rápido:** Permite a los analistas de Nivel 1 verificar enlaces sospechosos reportados por empleados sin exponer sus propios navegadores al riesgo.
-* **Prevención de Quishing:** Educa al usuario final traduciendo tecnicismos (como la falta de HTTPS o el uso de acortadores) en advertencias claras y accionables.
-* **Análisis de Vectores de Ataque:** Ayuda a documentar cómo se están distribuyendo enlaces maliciosos dentro de una organización mediante soportes físicos.
-
----
-
-## 🌐 Despliegue
-
-La aplicación está desplegada en **Render** utilizando contenedores **Docker** para garantizar la estabilidad de las librerías de sistema (`libzbar0`).
-
-* **Repositorio:** [https://github.com/LucasreyesGitHub/QrSocAnalyzer]
-* **URL de Producción:** [https://qrsocanalyzer.onrender.com/]
-
----
-
-## 📦 Instalación Local
-
-Si deseas ejecutar este proyecto localmente:
-
-1. Clonar el repositorio:
-   ```bash
-   git clone [https://github.com/TuUsuario/QrSocAnalyzer.git](https://github.com/LucasreyesGitHu/QrSocAnalyzer.git)
+Desarrollado por [Lucas Reyes](https://github.com/LucasreyesGitHub)
